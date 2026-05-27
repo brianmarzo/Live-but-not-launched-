@@ -1,0 +1,277 @@
+/* ============================================================
+   Owner Design System — Colors, Type & Tokens
+   ------------------------------------------------------------
+   Source: Owner Brand Guidelines (Feb 2026)
+   Typeface: STK Bureau Sans (licensed)
+   Fallback: Inter (Google Fonts) → system-ui sans-serif
+   ============================================================ */
+
+/* ---------- STK Bureau Sans (brand typeface) ---------- */
+/* TTFs are loaded directly. The variable font supports the full
+   weight range (300–700); the static files are listed as
+   fallbacks for browsers that ignore variable axes. */
+
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSansVariableComplete.ttf') format('truetype-variations'),
+       url('fonts/STKBureauSansVariableComplete.ttf') format('truetype');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-Light.ttf') format('truetype');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-Book.ttf') format('truetype');
+  font-weight: 350; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-Medium.ttf') format('truetype');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-SemiBold.ttf') format('truetype');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+/* italics */
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-LightItalic.ttf') format('truetype');
+  font-weight: 300; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-BookItalic.ttf') format('truetype');
+  font-weight: 350; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-Italic.ttf') format('truetype');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-MediumItalic.ttf') format('truetype');
+  font-weight: 500; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'STK Bureau Sans';
+  src: url('fonts/STKBureauSans-BoldItalic.ttf') format('truetype');
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+
+:root {
+  /* ---------- Primary brand ---------- */
+  --owner-green:    #088924;
+  --bright-green:   #0CB230;
+  --deep-green:     #115C1E;
+  --darkest-green:  #094413;
+
+  /* ---------- Neutrals ---------- */
+  --near-black:     #2C2C2C;
+  --white:          #FFFFFF;
+  --warm-white:     #FBF8F5;
+  --warm-cream:     #F9F3ED;  /* primary surface tint */
+  --warm-beige:     #F6EEE5;
+  --warm-gray:      #DDD6CE;
+  --warm-gray-dark: #C5BEB7;
+
+  /* ---------- Extended (supporting only) ---------- */
+  --sky-blue:       #56AEDD;
+  --deep-blue:      #034F81;
+  --violet:         #746CCF;
+  --deep-violet:    #534AB2;
+  --gold:           #DDAD6B;
+  --deep-gold:      #C58A3A;
+
+  /* ---------- Semantic color tokens ---------- */
+  --bg:             var(--warm-cream);        /* page background */
+  --bg-elevated:    var(--white);             /* cards, modals */
+  --bg-inset:       var(--warm-beige);        /* secondary surfaces */
+  --bg-dark:        var(--darkest-green);     /* dark sections */
+
+  --fg:             var(--near-black);        /* primary text */
+  --fg-muted:       #5C5A57;                  /* secondary text */
+  --fg-subtle:      #8A857F;                  /* tertiary / meta */
+  --fg-on-dark:     var(--warm-cream);
+  --fg-on-green:    var(--white);
+
+  --accent:         var(--owner-green);       /* primary CTA / link */
+  --accent-hover:   var(--deep-green);
+  --accent-press:   var(--darkest-green);
+
+  --border:         var(--warm-gray);
+  --border-strong:  var(--warm-gray-dark);
+  --divider:        rgba(44, 44, 44, 0.08);
+
+  --success:        var(--owner-green);
+  --info:           var(--deep-blue);
+  --highlight:      var(--gold);
+  --danger:         #C03A1E;
+
+  /* ---------- Brand gradients ---------- */
+  --grad-green-fade:    linear-gradient(180deg, #0CB230 0%, #094413 100%);
+  --grad-cream-green-blue: linear-gradient(180deg, #F9F3ED 0%, #0CB230 59.6%, #56AEDD 100%);
+  --grad-green-cream:   linear-gradient(0deg,   #F9F3ED 0%, #0CB230 66.8%);
+  --grad-blue-spectrum: linear-gradient(180deg, #56AEDD 0%, #034F81 52.9%, #335BA2 76.9%, #746CCF 100%);
+  --grad-cream-blue:    linear-gradient(180deg, #F9F3ED 19.2%, #56AEDD 60.1%, #034F81 100%);
+  --grad-gold:          linear-gradient(180deg, #DDAD6B 19.2%, #C58A3A 100%);
+
+  /* ---------- Type ---------- */
+  --font-sans:    'STK Bureau Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Inter', sans-serif;
+  --font-display: var(--font-sans);
+
+  /* font weights — only approved weights */
+  --fw-book:     350;
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  /* type scale (px). Do not introduce intermediate sizes. */
+  --fs-display:  120px;  --ls-display: -2.4px;   --lh-display: 1.0;
+  --fs-h1:       65px;   --ls-h1:      -1.3px;   --lh-h1:      1.1;
+  --fs-h2:       48px;   --ls-h2:      -0.96px;  --lh-h2:      1.15;
+  --fs-h3:       32px;   --ls-h3:      -0.64px;  --lh-h3:      1.2;
+  --fs-body-lg:  24px;   --ls-body-lg:  0;       --lh-body-lg: 1.5;
+  --fs-body:     18px;   --ls-body:    -0.36px;  --lh-body:    1.6;
+  --fs-caption:  14px;   --ls-caption:  0;       --lh-caption: 1.5;
+
+  /* ---------- Spacing scale ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* ---------- Radii (UI 20–30px per guidelines) ---------- */
+  --radius-xs: 6px;     /* tiny tags, pills */
+  --radius-sm: 12px;    /* inputs, small chips */
+  --radius-md: 20px;    /* default surface radius */
+  --radius-lg: 28px;    /* large cards */
+  --radius-xl: 40px;    /* hero containers */
+  --radius-pill: 999px; /* capsule buttons */
+
+  /* ---------- Shadows ---------- */
+  --shadow-xs: 0 1px 2px rgba(17, 92, 30, 0.04), 0 1px 3px rgba(17, 92, 30, 0.06);
+  --shadow-sm: 0 2px 6px rgba(17, 92, 30, 0.06), 0 4px 12px rgba(17, 92, 30, 0.04);
+  --shadow-md: 0 8px 24px rgba(17, 92, 30, 0.08), 0 2px 6px rgba(17, 92, 30, 0.05);
+  --shadow-lg: 0 24px 48px rgba(17, 92, 30, 0.12), 0 8px 16px rgba(17, 92, 30, 0.06);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 140ms;
+  --dur-med:  240ms;
+  --dur-slow: 420ms;
+}
+
+/* ============================================================
+   Element defaults
+   ============================================================ */
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  font-weight: var(--fw-regular);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, .display {
+  font-family: var(--font-display);
+  color: var(--fg);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.display {
+  font-size: var(--fs-display); letter-spacing: var(--ls-display);
+  line-height: var(--lh-display); font-weight: var(--fw-bold);
+}
+h1, .h1 {
+  font-size: var(--fs-h1); letter-spacing: var(--ls-h1);
+  line-height: var(--lh-h1); font-weight: var(--fw-bold);
+}
+h2, .h2 {
+  font-size: var(--fs-h2); letter-spacing: var(--ls-h2);
+  line-height: var(--lh-h2); font-weight: var(--fw-bold);
+}
+h3, .h3 {
+  font-size: var(--fs-h3); letter-spacing: var(--ls-h3);
+  line-height: var(--lh-h3); font-weight: var(--fw-semibold);
+}
+
+.body-lg {
+  font-size: var(--fs-body-lg); letter-spacing: var(--ls-body-lg);
+  line-height: var(--lh-body-lg); font-weight: var(--fw-regular);
+}
+.body {
+  font-size: var(--fs-body); letter-spacing: var(--ls-body);
+  line-height: var(--lh-body); font-weight: var(--fw-regular);
+}
+.caption {
+  font-size: var(--fs-caption); letter-spacing: var(--ls-caption);
+  line-height: var(--lh-caption); font-weight: var(--fw-medium);
+  text-transform: uppercase;
+}
+
+p { margin: 0 0 var(--space-4); text-wrap: pretty; }
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--accent-hover); }
+
+/* ============================================================
+   Utility-ish helpers
+   ============================================================ */
+.surface-cream { background: var(--warm-cream); color: var(--fg); }
+.surface-beige { background: var(--warm-beige); color: var(--fg); }
+.surface-white { background: var(--white); color: var(--fg); }
+.surface-dark  { background: var(--darkest-green); color: var(--fg-on-dark); }
+.surface-green { background: var(--owner-green); color: var(--fg-on-green); }
+
+.card {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-6);
+}
