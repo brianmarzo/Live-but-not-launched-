@@ -72,13 +72,13 @@ function DecisionTree({ gateStates, gateData, outcome, mode = 'tree' }) {
   const b = gateData.branch
   const e_01_02 = gateStates.g1 === 'passed'
   const e_02_03 = gateStates.g2 === 'passed'
-  const e_03_b1 = b === 'uncontrollable'
-  const e_03_b2 = b === 'well-configured'
-  const e_03_b3 = b === 'real-blocker'
+  const e_03_b1 = b === 'fractured-domain'
+  const e_03_b2 = b === 'gp-score'
+  const e_03_b3 = b === 'config-issue'
   const branchToG4 = gateStates.g3 === 'passed'
-  const e_b1_04 = b === 'uncontrollable' && branchToG4
-  const e_b2_04 = b === 'well-configured' && branchToG4
-  const e_b3_04 = b === 'real-blocker' && branchToG4
+  const e_b1_04 = b === 'fractured-domain' && branchToG4
+  const e_b2_04 = b === 'gp-score' && branchToG4
+  const e_b3_04 = b === 'config-issue' && branchToG4
   const e_04_launch = outcome === 'launch'
   const e_04_csm = outcome === 'csm'
   const e_04_hold = outcome === 'hold'
@@ -90,12 +90,12 @@ function DecisionTree({ gateStates, gateData, outcome, mode = 'tree' }) {
         <path className={`wz-svg-edge${e_02_03 ? ' is-on' : ''}`} d={edgePath({ x: TREE.n02.cx, y: TREE.n02.bottom }, { x: TREE.n03.cx, y: TREE.n03.top })} />
 
         <path className={`wz-svg-edge${e_03_b1 ? ' is-on' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n03.cx, y: TREE.n03.bottom }, { x: TREE.b1.cx, y: TREE.b1.top })} />
-        <path className={`wz-svg-edge${e_03_b2 ? ' is-on' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n03.cx, y: TREE.n03.bottom }, { x: TREE.b2.cx, y: TREE.b2.top })} />
-        <path className={`wz-svg-edge${e_03_b3 ? ' is-on coach' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n03.cx, y: TREE.n03.bottom }, { x: TREE.b3.cx, y: TREE.b3.top })} />
+        <path className={`wz-svg-edge coach${e_03_b2 ? ' is-on' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n03.cx, y: TREE.n03.bottom }, { x: TREE.b2.cx, y: TREE.b2.top })} />
+        <path className={`wz-svg-edge coach${e_03_b3 ? ' is-on' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n03.cx, y: TREE.n03.bottom }, { x: TREE.b3.cx, y: TREE.b3.top })} />
 
-        <path className={`wz-svg-edge${e_b1_04 ? ' is-on' : b && b !== 'uncontrollable' ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b1.cx, y: TREE.b1.bottom }, { x: TREE.n04.cx, y: TREE.n04.top })} />
-        <path className={`wz-svg-edge${e_b2_04 ? ' is-on' : b && b !== 'well-configured' ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b2.cx, y: TREE.b2.bottom }, { x: TREE.n04.cx, y: TREE.n04.top })} />
-        <path className={`wz-svg-edge${e_b3_04 ? ' is-on coach' : b && b !== 'real-blocker' ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b3.cx, y: TREE.b3.bottom }, { x: TREE.n04.cx, y: TREE.n04.top })} />
+        <path className={`wz-svg-edge${e_b1_04 ? ' is-on' : b && b !== 'fractured-domain' ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b1.cx, y: TREE.b1.bottom }, { x: TREE.n04.cx, y: TREE.n04.top })} />
+        <path className={`wz-svg-edge coach${e_b2_04 ? ' is-on' : b && b !== 'gp-score' ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b2.cx, y: TREE.b2.bottom }, { x: TREE.n04.cx, y: TREE.n04.top })} />
+        <path className={`wz-svg-edge coach${e_b3_04 ? ' is-on' : b && b !== 'config-issue' ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b3.cx, y: TREE.b3.bottom }, { x: TREE.n04.cx, y: TREE.n04.top })} />
 
         <path className={`wz-svg-edge${e_04_launch ? ' is-on' : outcome ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n04.cx, y: TREE.n04.bottom }, { x: TREE.t1.cx, y: TREE.t1.top })} />
         <path className={`wz-svg-edge coach${e_04_csm ? ' is-on' : outcome ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n04.cx, y: TREE.n04.bottom }, { x: TREE.t2.cx, y: TREE.t2.top })} />
@@ -107,17 +107,17 @@ function DecisionTree({ gateStates, gateData, outcome, mode = 'tree' }) {
       <SvgNode rect={TREE.n03} state={gateStates.g3} n="03" kicker="Diagnosis" label="What's the GP issue?" />
       <SvgNode rect={TREE.n04} state={gateStates.g4} n="04" kicker="Rep" label="Who benefits from waiting?" />
 
-      <SvgChip rect={TREE.b1} label="Uncontrollable" sel={b === 'uncontrollable'} faded={b && b !== 'uncontrollable'} verdict="launch" />
-      <SvgChip rect={TREE.b2} label="Well-configured" sel={b === 'well-configured'} faded={b && b !== 'well-configured'} verdict="launch" />
-      <SvgChip rect={TREE.b3} label="Real blocker" sel={b === 'real-blocker'} faded={b && b !== 'real-blocker'} verdict="coach" />
+      <SvgChip rect={TREE.b1} label="Fractured domain" sel={b === 'fractured-domain'} faded={b && b !== 'fractured-domain'} verdict="launch" />
+      <SvgChip rect={TREE.b2} label="GP score" sel={b === 'gp-score'} faded={b && b !== 'gp-score'} verdict="coach" />
+      <SvgChip rect={TREE.b3} label="Config issue" sel={b === 'config-issue'} faded={b && b !== 'config-issue'} verdict="coach" />
 
       <SvgTerm rect={TREE.t1} icon="🚀" label="Launch" active={outcome === 'launch'} tone="go" />
       <SvgTerm rect={TREE.t2} icon="🤝" label="Launch + CSM" active={outcome === 'csm'} tone="handoff" />
       <SvgTerm rect={TREE.t3} icon="✋" label="Do not launch" active={outcome === 'hold'} tone="stop" />
 
-      {b === 'real-blocker' && (
+      {(b === 'gp-score' || b === 'config-issue') && (
         <g className="wz-svg-detour">
-          <text x={TREE.b3.cx} y={TREE.b3.bottom + 18} textAnchor="middle">via coaching</text>
+          <text x={b === 'gp-score' ? TREE.b2.cx : TREE.b3.cx} y={TREE.b2.bottom + 18} textAnchor="middle">via coaching</text>
         </g>
       )}
     </svg>
@@ -305,23 +305,28 @@ function BranchSelector({ gate, branch, setBranch }) {
         })}
       </div>
 
-      {branch === 'real-blocker' && (
-        <div className="wz-coach">
-          <div className="wz-coach-head">
-            <span className="wz-coach-icon"><WarnIcon /></span>
-            <div>
-              <div className="wz-coach-tag">Pause before routing — coaching first</div>
-              <h3 className="wz-coach-title">{gate.coaching.title}</h3>
+      {(() => {
+        const activeBranch = gate.branches.find(b => b.id === branch)
+        const coaching = activeBranch?.coaching
+        if (!coaching) return null
+        return (
+          <div className="wz-coach">
+            <div className="wz-coach-head">
+              <span className="wz-coach-icon"><WarnIcon /></span>
+              <div>
+                <div className="wz-coach-tag">Pause before routing — coaching first</div>
+                <h3 className="wz-coach-title">{coaching.title}</h3>
+              </div>
             </div>
+            <ol className="wz-coach-q">
+              {coaching.questions.map((q, i) => (
+                <li key={i}><span>{String(i + 1).padStart(2, '0')}</span>{q}</li>
+              ))}
+            </ol>
+            <p className="wz-coach-warn">{coaching.warn}</p>
           </div>
-          <ol className="wz-coach-q">
-            {gate.coaching.questions.map((q, i) => (
-              <li key={i}><span>{String(i + 1).padStart(2, '0')}</span>{q}</li>
-            ))}
-          </ol>
-          <p className="wz-coach-warn">{gate.coaching.warn}</p>
-        </div>
-      )}
+        )
+      })()}
     </>
   )
 }
