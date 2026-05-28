@@ -521,7 +521,7 @@ function TweakRadio({ label, value, options, onChange }) {
 export default function DecisionWizard() {
   const [gateData, setGateData] = useState({
     g1: [false, false, false],
-    g2: [false, false, false],
+    g2: [false, false, false, false],
     branch: null,
     g4: [false, false, false],
   })
@@ -549,7 +549,7 @@ export default function DecisionWizard() {
 
   const canAdvance = (() => {
     if (step === 0) return gateData.g1.every(Boolean)
-    if (step === 1) return gateData.g2.every(v => !v)  // no risks checked = clear
+    if (step === 1) return true  // gate 2 is always passable — risks are informational
     if (step === 2) return !!gateData.branch
     if (step === 3) return gateData.g4.every(Boolean)
     return false
@@ -559,7 +559,7 @@ export default function DecisionWizard() {
   function advance() { if (step < 4 && canAdvance) setStep(step + 1) }
   function back() { if (step > 0) setStep(step - 1) }
   function reset() {
-    setGateData({ g1: [false, false, false], g2: [false, false, false], branch: null, g4: [false, false, false] })
+    setGateData({ g1: [false, false, false], g2: [false, false, false, false], branch: null, g4: [false, false, false] })
     setStep(0)
   }
 
@@ -659,15 +659,18 @@ export default function DecisionWizard() {
                   <ArrowLeftIcon /> Back
                 </button>
                 <div className="wz-foot-status">
-                  {canAdvance ? (
+                  {currentGate.alwaysPassable ? (
+                    (() => {
+                      const riskCount = gateData[currentGate.id]?.filter(Boolean).length ?? 0
+                      return riskCount > 0
+                        ? <span className="wz-foot-status-warn">{riskCount} risk{riskCount > 1 ? 's' : ''} flagged — noted for Gate 3 coaching</span>
+                        : <span className="wz-foot-status-on">No risks identified — clear to advance</span>
+                    })()
+                  ) : canAdvance ? (
                     <span className="wz-foot-status-on">Gate cleared — ready to advance</span>
                   ) : (
                     <span className="wz-foot-status-off">
-                      {currentGate.id === 'g3'
-                        ? 'Select the GP score issue to continue'
-                        : currentGate.riskMode
-                          ? 'Risk signal present — resolve before launching'
-                          : 'Confirm every item to clear this gate'}
+                      {currentGate.id === 'g3' ? 'Select the GP score issue to continue' : 'Confirm every item to clear this gate'}
                     </span>
                   )}
                 </div>

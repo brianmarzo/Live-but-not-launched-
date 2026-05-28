@@ -673,16 +673,16 @@ p { margin: 0 0 var(--space-4); text-wrap: pretty; }
   font-style: italic;
 }
 .wz-check.is-risk-on {
-  border-color: var(--danger);
-  background: rgba(192, 58, 30, 0.04);
+  border-color: var(--gold);
+  background: rgba(221, 173, 107, 0.08);
 }
 .wz-check.is-risk-on .wz-check-box {
-  background: var(--danger);
-  border-color: var(--danger);
+  background: var(--gold);
+  border-color: var(--gold);
   color: var(--white);
 }
 .wz-check.is-risk-on .wz-check-title {
-  color: var(--danger);
+  color: var(--deep-gold);
 }
 .wz-check.is-risk-clear {
   border-color: var(--wz-border);
@@ -914,6 +914,16 @@ p { margin: 0 0 var(--space-4); text-wrap: pretty; }
 }
 .wz-foot-status-off {
   font-size: 13px; color: var(--wz-fg-subtle);
+}
+.wz-foot-status-warn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: var(--fw-semibold);
+  color: var(--deep-gold);
+}
+.wz-foot-status-warn::before {
+  content: ""; display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gold);
 }
 
 /* Buttons */
