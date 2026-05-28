@@ -52,9 +52,10 @@ const TREE = {
   n02: { x: 100, y: 110, w: 200, h: 60, cx: 200, cy: 140, top: 110, bottom: 170 },
   n03: { x: 100, y: 212, w: 200, h: 60, cx: 200, cy: 242, top: 212, bottom: 272 },
   n04: { x: 100, y: 440, w: 200, h: 60, cx: 200, cy: 470, top: 440, bottom: 500 },
-  b1:  { x: 0,   y: 328, w: 124, h: 40, cx: 62,  cy: 348, top: 328, bottom: 368 },
-  b2:  { x: 138, y: 328, w: 124, h: 40, cx: 200, cy: 348, top: 328, bottom: 368 },
-  b3:  { x: 276, y: 328, w: 124, h: 40, cx: 338, cy: 348, top: 328, bottom: 368 },
+  b1:  { x: 5,   y: 328, w: 88,  h: 40, cx: 49,  cy: 348, top: 328, bottom: 368 },
+  b2:  { x: 104, y: 328, w: 88,  h: 40, cx: 148, cy: 348, top: 328, bottom: 368 },
+  b3:  { x: 203, y: 328, w: 88,  h: 40, cx: 247, cy: 348, top: 328, bottom: 368 },
+  b4:  { x: 302, y: 328, w: 93,  h: 40, cx: 349, cy: 348, top: 328, bottom: 368 },
   t1:  { x: 0,   y: 540, w: 124, h: 64, cx: 62,  cy: 572, top: 540 },
   t2:  { x: 138, y: 540, w: 124, h: 64, cx: 200, cy: 572, top: 540 },
   t3:  { x: 276, y: 540, w: 124, h: 64, cx: 338, cy: 572, top: 540 },
@@ -75,13 +76,14 @@ function DecisionTree({ gateStates, gateData, outcome, mode = 'tree' }) {
   const e_03_b1 = b === 'fractured-domain'
   const e_03_b2 = b === 'gp-score'
   const e_03_b3 = b === 'config-issue'
-  const branchToG4 = gateStates.g3 === 'passed'
+  const e_03_b4 = b === 'critical-hold'
+  const branchToG4 = gateStates.g3 === 'passed' && b !== 'critical-hold'
   const e_b1_04 = b === 'fractured-domain' && branchToG4
   const e_b2_04 = b === 'gp-score' && branchToG4
   const e_b3_04 = b === 'config-issue' && branchToG4
+  const e_b4_t3 = b === 'critical-hold' && outcome === 'hold'
   const e_04_launch = outcome === 'launch'
   const e_04_csm = outcome === 'csm'
-  const e_04_hold = outcome === 'hold'
 
   return (
     <svg className="wz-svg" viewBox="0 0 400 620" preserveAspectRatio="xMidYMin meet" role="img" aria-label="Decision tree">
@@ -92,24 +94,26 @@ function DecisionTree({ gateStates, gateData, outcome, mode = 'tree' }) {
         <path className={`wz-svg-edge${e_03_b1 ? ' is-on' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n03.cx, y: TREE.n03.bottom }, { x: TREE.b1.cx, y: TREE.b1.top })} />
         <path className={`wz-svg-edge coach${e_03_b2 ? ' is-on' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n03.cx, y: TREE.n03.bottom }, { x: TREE.b2.cx, y: TREE.b2.top })} />
         <path className={`wz-svg-edge coach${e_03_b3 ? ' is-on' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n03.cx, y: TREE.n03.bottom }, { x: TREE.b3.cx, y: TREE.b3.top })} />
+        <path className={`wz-svg-edge stop${e_03_b4 ? ' is-on' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n03.cx, y: TREE.n03.bottom }, { x: TREE.b4.cx, y: TREE.b4.top })} />
 
         <path className={`wz-svg-edge${e_b1_04 ? ' is-on' : b && b !== 'fractured-domain' ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b1.cx, y: TREE.b1.bottom }, { x: TREE.n04.cx, y: TREE.n04.top })} />
         <path className={`wz-svg-edge coach${e_b2_04 ? ' is-on' : b && b !== 'gp-score' ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b2.cx, y: TREE.b2.bottom }, { x: TREE.n04.cx, y: TREE.n04.top })} />
         <path className={`wz-svg-edge coach${e_b3_04 ? ' is-on' : b && b !== 'config-issue' ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b3.cx, y: TREE.b3.bottom }, { x: TREE.n04.cx, y: TREE.n04.top })} />
+        <path className={`wz-svg-edge stop${e_b4_t3 ? ' is-on' : b === 'critical-hold' ? '' : b ? ' is-dim' : ''}`} d={edgePath({ x: TREE.b4.cx, y: TREE.b4.bottom }, { x: TREE.t3.cx, y: TREE.t3.top })} />
 
         <path className={`wz-svg-edge${e_04_launch ? ' is-on' : outcome ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n04.cx, y: TREE.n04.bottom }, { x: TREE.t1.cx, y: TREE.t1.top })} />
         <path className={`wz-svg-edge coach${e_04_csm ? ' is-on' : outcome ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n04.cx, y: TREE.n04.bottom }, { x: TREE.t2.cx, y: TREE.t2.top })} />
-        <path className={`wz-svg-edge stop${e_04_hold ? ' is-on' : outcome ? ' is-dim' : ''}`} d={edgePath({ x: TREE.n04.cx, y: TREE.n04.bottom }, { x: TREE.t3.cx, y: TREE.t3.top })} />
       </g>
 
       <SvgNode rect={TREE.n01} state={gateStates.g1} n="01" kicker="Customer" label="Live & taking orders?" />
       <SvgNode rect={TREE.n02} state={gateStates.g2} n="02" kicker="Company" label="Churn or support risk?" />
-      <SvgNode rect={TREE.n03} state={gateStates.g3} n="03" kicker="Diagnosis" label="What's the GP issue?" />
+      <SvgNode rect={TREE.n03} state={gateStates.g3} n="03" kicker="Diagnosis" label="What's the issue?" />
       <SvgNode rect={TREE.n04} state={gateStates.g4} n="04" kicker="Rep" label="Who benefits from waiting?" />
 
       <SvgChip rect={TREE.b1} label="Fractured domain" sel={b === 'fractured-domain'} faded={b && b !== 'fractured-domain'} verdict="launch" />
       <SvgChip rect={TREE.b2} label="GP score" sel={b === 'gp-score'} faded={b && b !== 'gp-score'} verdict="coach" />
       <SvgChip rect={TREE.b3} label="Config issue" sel={b === 'config-issue'} faded={b && b !== 'config-issue'} verdict="coach" />
+      <SvgChip rect={TREE.b4} label="Critical risk" sel={b === 'critical-hold'} faded={b && b !== 'critical-hold'} verdict="hold" />
 
       <SvgTerm rect={TREE.t1} icon="🚀" label="Launch" active={outcome === 'launch'} tone="go" />
       <SvgTerm rect={TREE.t2} icon="🤝" label="Launch + CSM" active={outcome === 'csm'} tone="handoff" />
@@ -291,7 +295,7 @@ function BranchSelector({ gate, branch, setBranch }) {
             >
               <div className="wz-branchcard-top">
                 <div className={`wz-branchcard-tag is-${b.verdict}`}>
-                  {b.verdict === 'launch' ? 'Launch path' : 'Coach + handoff'}
+                  {b.verdict === 'launch' ? 'Launch path' : b.verdict === 'hold' ? 'Do not launch' : 'Coach + handoff'}
                 </div>
               </div>
               <h3 className="wz-branchcard-title">{b.title}</h3>
@@ -538,12 +542,15 @@ export default function DecisionWizard() {
     setTweakState(prev => ({ ...prev, [key]: val }))
   }, [])
 
-  const gateStates = useMemo(() => ({
-    g1: step === 0 ? 'active' : step > 0 ? 'passed' : 'pending',
-    g2: step === 1 ? 'active' : step > 1 ? 'passed' : 'pending',
-    g3: step === 2 ? 'active' : step > 2 ? 'passed' : 'pending',
-    g4: step === 3 ? 'active' : step > 3 ? 'passed' : 'pending',
-  }), [step])
+  const gateStates = useMemo(() => {
+    const skipG4 = gateData.branch === 'critical-hold'
+    return {
+      g1: step === 0 ? 'active' : step > 0 ? 'passed' : 'pending',
+      g2: step === 1 ? 'active' : step > 1 ? 'passed' : 'pending',
+      g3: step === 2 ? 'active' : step > 2 ? 'passed' : 'pending',
+      g4: skipG4 ? 'pending' : step === 3 ? 'active' : step > 3 ? 'passed' : 'pending',
+    }
+  }, [step, gateData.branch])
 
   const outcomeResult = useMemo(() => deriveOutcome({
     gate1: gateData.g1, gate2: gateData.g2, branch: gateData.branch, gate4: gateData.g4,
@@ -559,10 +566,17 @@ export default function DecisionWizard() {
     if (step === 3) return gateData.g4.every(Boolean)
     return false
   })()
-  const advanceLabel = step === 3 ? 'See recommended decision' : 'Next gate'
+  const isCriticalHold = gateData.branch === 'critical-hold'
+  const advanceLabel = (step === 3 || (step === 2 && isCriticalHold)) ? 'See recommended decision' : 'Next gate'
 
-  function advance() { if (step < 4 && canAdvance) setStep(step + 1) }
-  function back() { if (step > 0) setStep(step - 1) }
+  function advance() {
+    if (step < 4 && canAdvance) {
+      setStep(step === 2 && isCriticalHold ? 4 : step + 1)
+    }
+  }
+  function back() {
+    if (step > 0) setStep(step === 4 && isCriticalHold ? 2 : step - 1)
+  }
   function reset() {
     setGateData({ g1: [false, false, false], g2: [false, false, false, false], branch: null, g4: [false, false, false] })
     setStep(0)
@@ -675,7 +689,7 @@ export default function DecisionWizard() {
                     <span className="wz-foot-status-on">Gate cleared — ready to advance</span>
                   ) : (
                     <span className="wz-foot-status-off">
-                      {currentGate.id === 'g3' ? 'Select the GP score issue to continue' : 'Confirm every item to clear this gate'}
+                      {currentGate.id === 'g3' ? 'Select the issue type to continue' : 'Confirm every item to clear this gate'}
                     </span>
                   )}
                 </div>
@@ -685,7 +699,7 @@ export default function DecisionWizard() {
               </footer>
             </div>
           ) : (
-            <OutcomeScreen outcome={outcomeResult.outcome} onReset={reset} onBack={() => setStep(3)} />
+            <OutcomeScreen outcome={outcomeResult.outcome} onReset={reset} onBack={() => setStep(isCriticalHold ? 2 : 3)} />
           )}
         </main>
       </div>

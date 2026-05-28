@@ -444,6 +444,7 @@ p { margin: 0 0 var(--space-4); text-wrap: pretty; }
 }
 .wz-svg-chip.is-sel.is-launch rect { fill: var(--wz-accent-deep); stroke: var(--wz-accent-deep); }
 .wz-svg-chip.is-sel.is-coach rect { fill: #6a4818; stroke: #6a4818; }
+.wz-svg-chip.is-sel.is-hold rect { fill: #832818; stroke: #832818; }
 .wz-svg-chip.is-sel text { fill: var(--warm-cream); }
 
 .wz-svg-term rect {
@@ -793,6 +794,10 @@ p { margin: 0 0 var(--space-4); text-wrap: pretty; }
 .wz-branchcard-tag.is-coach {
   background: rgba(221, 173, 107, 0.18);
   color: #6a4818;
+}
+.wz-branchcard-tag.is-hold {
+  background: rgba(183, 72, 52, 0.12);
+  color: #832818;
 }
 .wz-branchcard-title {
   font-size: 18px; line-height: 1.25; letter-spacing: -0.3px;
