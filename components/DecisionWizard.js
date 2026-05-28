@@ -221,18 +221,31 @@ function GateHeader({ gate, step, total }) {
 }
 
 function ChecklistGate({ gate, arr, setArr }) {
+  const riskMode = !!gate.riskMode
   return (
     <div className="wz-checklist">
+      {riskMode && (
+        <p className="wz-checklist-hint">Check any that apply — leave unchecked if clear.</p>
+      )}
       {gate.items.map((item, i) => {
         const checked = arr[i]
+        const cls = riskMode
+          ? `wz-check${checked ? ' is-risk-on' : ' is-risk-clear'}`
+          : `wz-check${checked ? ' is-on' : ''}`
         return (
           <button
             key={item.id}
             type="button"
-            className={`wz-check${checked ? ' is-on' : ''}`}
+            className={cls}
             onClick={() => { const next = arr.slice(); next[i] = !next[i]; setArr(next) }}
           >
-            <span className="wz-check-box">{checked && <CheckIcon />}</span>
+            <span className="wz-check-box">
+              {riskMode && checked
+                ? <WarnIcon />
+                : !riskMode && checked
+                  ? <CheckIcon />
+                  : null}
+            </span>
             <span className="wz-check-text">
               <span className="wz-check-title">{item.title}</span>
               <span className="wz-check-detail">{item.detail}</span>
@@ -536,7 +549,7 @@ export default function DecisionWizard() {
 
   const canAdvance = (() => {
     if (step === 0) return gateData.g1.every(Boolean)
-    if (step === 1) return gateData.g2.every(Boolean)
+    if (step === 1) return gateData.g2.every(v => !v)  // no risks checked = clear
     if (step === 2) return !!gateData.branch
     if (step === 3) return gateData.g4.every(Boolean)
     return false
@@ -650,7 +663,11 @@ export default function DecisionWizard() {
                     <span className="wz-foot-status-on">Gate cleared — ready to advance</span>
                   ) : (
                     <span className="wz-foot-status-off">
-                      {currentGate.id === 'g3' ? 'Select the GP score issue to continue' : 'Confirm every item to clear this gate'}
+                      {currentGate.id === 'g3'
+                        ? 'Select the GP score issue to continue'
+                        : currentGate.riskMode
+                          ? 'Risk signal present — resolve before launching'
+                          : 'Confirm every item to clear this gate'}
                     </span>
                   )}
                 </div>

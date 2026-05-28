@@ -665,6 +665,29 @@ p { margin: 0 0 var(--space-4); text-wrap: pretty; }
   color: var(--wz-fg-muted);
 }
 
+/* Risk-mode checklist (Gate 2) */
+.wz-checklist-hint {
+  font-size: 13px;
+  color: var(--wz-fg-subtle);
+  margin: 0 0 14px;
+  font-style: italic;
+}
+.wz-check.is-risk-on {
+  border-color: var(--danger);
+  background: rgba(192, 58, 30, 0.04);
+}
+.wz-check.is-risk-on .wz-check-box {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--white);
+}
+.wz-check.is-risk-on .wz-check-title {
+  color: var(--danger);
+}
+.wz-check.is-risk-clear {
+  border-color: var(--wz-border);
+}
+
 /* Stakeholders (Gate 4) */
 .wz-stakeholders {
   display: grid; grid-template-columns: repeat(3, 1fr);
